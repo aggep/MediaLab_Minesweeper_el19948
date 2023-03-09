@@ -1,5 +1,8 @@
 package com.example.medialab_minesweeper_el19948;
 
+import javafx.scene.layout.GridPane;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Handler {
@@ -7,6 +10,9 @@ public class Handler {
     private static ArrayList<Cell> current = new ArrayList<Cell>(); //create two arrays that will handle the cells differently, depending on their "states"
     private static ArrayList<Cell> queue = new ArrayList<Cell>();
     private static int flaggedCells = 0; //keeps track of the flagged cells
+
+    public static boolean GameWon = false; //we initialize it first as false
+    static Handler handler;
 
     public static void click(Cell cell) {
         int discoveredCells = 0; //how many cells are discovered during the game
@@ -83,6 +89,7 @@ public class Handler {
                     }
                 }
                 cell.setText("*"); //the cell we have clicked on that made us lose the game is distinguished by an "*"
+                GUI.timer.cancel();
                 GUI.show("Oops! You clicked on a mine!");
             } else if (cell.getType() == 2) {
                 /*the functionality will be how we will determine the number*/
@@ -169,6 +176,8 @@ public class Handler {
                         Grid.cellGrid.get(x).setText("!");
                     }
                 }
+                GameWon = true;
+                GUI.timer.cancel();
                 GUI.show("You won!");
             }
         }
@@ -190,6 +199,10 @@ public class Handler {
             }
         }
     }
-
+    public static void reset(){
+        GUI.window.close();
+        GUI gui = new GUI();
+        GUI.window.show();
+    }
 }
 

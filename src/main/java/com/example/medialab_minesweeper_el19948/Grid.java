@@ -2,29 +2,50 @@ package com.example.medialab_minesweeper_el19948;
 
 import java.util.ArrayList;
 import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.File;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class Grid extends GridPane {
-    private int bound = Game.GRIDSIZE * Game.GRIDSIZE; //the max position
-    private boolean picked = false;
-    private ArrayList<Integer> mines = new ArrayList<Integer>();
-    private int gridSize;
+
+    private static final int bound = Game.GRIDSIZE * Game.GRIDSIZE; //the max position
+    private static boolean picked = false;
+    public static ArrayList<Integer> mines = new ArrayList<Integer>();
 
     public static ArrayList<Cell> cellGrid = new ArrayList<Cell>(); //we want to access this everywhere
 
     /*our constructor*/
-    public Grid(int gridSize, Handler h) throws IOException {
+    public Grid(Handler h) throws IOException {
         super();
         createCells(h);
         addCells();
-        this.gridSize = Game.GRIDSIZE;
+
     }
 
-    public void createCells(Handler h) throws IOException {
+    public static void createCells(Handler h) throws IOException {
+        // Create the file chooser to select the directory
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save description file");
+
+        String folderPath = System.getProperty("user.home") + "/medialab";
+        File folder = new File(folderPath);
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text files", "*.txt"));
+
+        // Show the save dialog
+
+        File file = new File(folder, "mines.txt");
         //the first cells we will create are the mines
-        BufferedWriter writer = new BufferedWriter(new FileWriter("mines.txt")); //we will need a buffer to write the text that has the positions of the mines
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file)); //we will need a buffer to write the text that has the positions of the mines
         try {
             for (int i = 1; i <= Game.MINECOUNT; i++) {
                 //keep creating random numbers until all numbers are unique
@@ -93,10 +114,13 @@ public class Grid extends GridPane {
         }
 
     }
-    private void addCells() {
+    public void addCells() {
         for (int i = 0; i < cellGrid.size(); i++) {
             add(cellGrid.get(i), i % Game.GRIDSIZE, i / Game.GRIDSIZE); // add cell to GridPane at specified row and column
         }
     }
+
+
+
 
 }

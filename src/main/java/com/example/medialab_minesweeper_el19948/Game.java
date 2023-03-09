@@ -8,10 +8,9 @@ public class Game {
 
 
 
-
     public Game() {
         new GUI(); //we call the GUI class to implement the game's interface
-       // GUI.update(0);
+       GUI.update(0);
     }
     public static void main(String[] args){
         new Game();

@@ -50,11 +50,11 @@ public class Cell extends Button {
     }
 
     public void clickButton() {
-       handler.click(this);
+       if(GUI.gameStarted == true) handler.click(this);
     }
 
     public void rightClickButton(){
-      handler.rightClick(this);
+        if(GUI.gameStarted == true) handler.rightClick(this);
     }
 }
 

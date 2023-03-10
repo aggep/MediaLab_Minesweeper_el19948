@@ -1,7 +1,5 @@
 package com.example.medialab_minesweeper_el19948;
 
-import javafx.scene.layout.GridPane;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -12,7 +10,9 @@ public class Handler {
     private static int flaggedCells = 0; //keeps track of the flagged cells
 
     public static boolean GameWon = false; //we initialize it first as false
-    static Handler handler;
+
+    public Handler() throws IOException {
+    }
 
     public static void click(Cell cell) {
         int discoveredCells = 0; //how many cells are discovered during the game
@@ -22,61 +22,61 @@ public class Handler {
 
             int position = cell.getPosition();
             if (cell.getType() == 0) { //if cell to determine the type of cell (e.g. type 0 : empty, type 1: mine, type 2: numbered)
-                if (position < Game.GRIDSIZE) { //if the position of the cell is between 0 and 9, in other words in the 1st row
-                    if (position % Game.GRIDSIZE == 0) { //topmost left-hand corner
+                if (position < GUI.GRIDSIZE) { //if the position of the cell is between 0 and 9, in other words in the 1st row
+                    if (position % GUI.GRIDSIZE == 0) { //topmost left-hand corner
                     /*we take all the adjacent cells of the cell we have clicked on
                     ,and we add them to our queue, which we are going to iterate through*/
-                        queue.add(Grid.cellGrid.get((position + Game.GRIDSIZE)));
-                        queue.add(Grid.cellGrid.get((position + Game.GRIDSIZE + 1)));
+                        queue.add(Grid.cellGrid.get((position + GUI.GRIDSIZE)));
+                        queue.add(Grid.cellGrid.get((position + GUI.GRIDSIZE + 1)));
                         queue.add(Grid.cellGrid.get((position + 1)));
-                    } else if (position % Game.GRIDSIZE == Game.GRIDSIZE - 1) { //if the cell is in the top-right corner
-                        queue.add(Grid.cellGrid.get((position + Game.GRIDSIZE)));
-                        queue.add(Grid.cellGrid.get((position + Game.GRIDSIZE - 1)));
+                    } else if (position % GUI.GRIDSIZE == GUI.GRIDSIZE - 1) { //if the cell is in the top-right corner
+                        queue.add(Grid.cellGrid.get((position + GUI.GRIDSIZE)));
+                        queue.add(Grid.cellGrid.get((position + GUI.GRIDSIZE - 1)));
                         queue.add(Grid.cellGrid.get((position - 1)));
                     } else { // cells in the top row but not in the corners
-                        queue.add(Grid.cellGrid.get((position + Game.GRIDSIZE)));
-                        queue.add(Grid.cellGrid.get((position + Game.GRIDSIZE + 1)));
-                        queue.add(Grid.cellGrid.get((position + Game.GRIDSIZE - 1)));
+                        queue.add(Grid.cellGrid.get((position + GUI.GRIDSIZE)));
+                        queue.add(Grid.cellGrid.get((position + GUI.GRIDSIZE + 1)));
+                        queue.add(Grid.cellGrid.get((position + GUI.GRIDSIZE - 1)));
                         queue.add(Grid.cellGrid.get((position + 1)));
                         queue.add(Grid.cellGrid.get((position - 1)));
                     }
-                } else if (position >= (Game.GRIDSIZE * (Game.GRIDSIZE - 1))) { //if the cell is in the last row
-                    if (position % Game.GRIDSIZE == 0) { //topmost left-hand corner
+                } else if (position >= (GUI.GRIDSIZE * (GUI.GRIDSIZE - 1))) { //if the cell is in the last row
+                    if (position % GUI.GRIDSIZE == 0) { //topmost left-hand corner
                     /*we take all the adjacent cells of the cell we have clicked on,
                     and we add them to our queue, which we are going to iterate through*/
-                        queue.add(Grid.cellGrid.get((position - Game.GRIDSIZE)));
-                        queue.add(Grid.cellGrid.get((position - Game.GRIDSIZE + 1)));
+                        queue.add(Grid.cellGrid.get((position - GUI.GRIDSIZE)));
+                        queue.add(Grid.cellGrid.get((position - GUI.GRIDSIZE + 1)));
                         queue.add(Grid.cellGrid.get((position + 1)));
-                    } else if (position % Game.GRIDSIZE == Game.GRIDSIZE - 1) { //if the cell is in the top-right corner
-                        queue.add(Grid.cellGrid.get((position - Game.GRIDSIZE)));
-                        queue.add(Grid.cellGrid.get((position - Game.GRIDSIZE - 1)));
+                    } else if (position % GUI.GRIDSIZE == GUI.GRIDSIZE - 1) { //if the cell is in the top-right corner
+                        queue.add(Grid.cellGrid.get((position - GUI.GRIDSIZE)));
+                        queue.add(Grid.cellGrid.get((position - GUI.GRIDSIZE - 1)));
                         queue.add(Grid.cellGrid.get((position - 1)));
                     } else { // cells in the top row but not in the corners
-                        queue.add(Grid.cellGrid.get((position - Game.GRIDSIZE)));
-                        queue.add(Grid.cellGrid.get((position - Game.GRIDSIZE + 1)));
-                        queue.add(Grid.cellGrid.get((position - Game.GRIDSIZE - 1)));
+                        queue.add(Grid.cellGrid.get((position - GUI.GRIDSIZE)));
+                        queue.add(Grid.cellGrid.get((position - GUI.GRIDSIZE + 1)));
+                        queue.add(Grid.cellGrid.get((position - GUI.GRIDSIZE - 1)));
                         queue.add(Grid.cellGrid.get((position + 1)));
                         queue.add(Grid.cellGrid.get((position - 1)));
                     }
-                } else if (position % Game.GRIDSIZE == 0) { //being in the leftmost column
-                    queue.add(Grid.cellGrid.get((position - Game.GRIDSIZE)));
-                    queue.add(Grid.cellGrid.get((position + Game.GRIDSIZE)));
-                    queue.add(Grid.cellGrid.get((position - Game.GRIDSIZE + 1)));
-                    queue.add(Grid.cellGrid.get((position + Game.GRIDSIZE + 1)));
+                } else if (position % GUI.GRIDSIZE == 0) { //being in the leftmost column
+                    queue.add(Grid.cellGrid.get((position - GUI.GRIDSIZE)));
+                    queue.add(Grid.cellGrid.get((position + GUI.GRIDSIZE)));
+                    queue.add(Grid.cellGrid.get((position - GUI.GRIDSIZE + 1)));
+                    queue.add(Grid.cellGrid.get((position + GUI.GRIDSIZE + 1)));
                     queue.add(Grid.cellGrid.get((position + 1)));
-                } else if (position % Game.GRIDSIZE == Game.GRIDSIZE - 1) { //being in the rightmost column
-                    queue.add(Grid.cellGrid.get((position - Game.GRIDSIZE)));
-                    queue.add(Grid.cellGrid.get((position + Game.GRIDSIZE)));
-                    queue.add(Grid.cellGrid.get((position - Game.GRIDSIZE - 1)));
-                    queue.add(Grid.cellGrid.get((position + Game.GRIDSIZE - 1)));
+                } else if (position % GUI.GRIDSIZE == GUI.GRIDSIZE - 1) { //being in the rightmost column
+                    queue.add(Grid.cellGrid.get((position - GUI.GRIDSIZE)));
+                    queue.add(Grid.cellGrid.get((position + GUI.GRIDSIZE)));
+                    queue.add(Grid.cellGrid.get((position - GUI.GRIDSIZE - 1)));
+                    queue.add(Grid.cellGrid.get((position + GUI.GRIDSIZE - 1)));
                     queue.add(Grid.cellGrid.get((position - 1)));
                 } else {
-                    queue.add(Grid.cellGrid.get((position - Game.GRIDSIZE)));
-                    queue.add(Grid.cellGrid.get((position + Game.GRIDSIZE)));
-                    queue.add(Grid.cellGrid.get((position - Game.GRIDSIZE - 1)));
-                    queue.add(Grid.cellGrid.get((position + Game.GRIDSIZE - 1)));
-                    queue.add(Grid.cellGrid.get((position - Game.GRIDSIZE + 1)));
-                    queue.add(Grid.cellGrid.get((position + Game.GRIDSIZE + 1)));
+                    queue.add(Grid.cellGrid.get((position - GUI.GRIDSIZE)));
+                    queue.add(Grid.cellGrid.get((position + GUI.GRIDSIZE)));
+                    queue.add(Grid.cellGrid.get((position - GUI.GRIDSIZE - 1)));
+                    queue.add(Grid.cellGrid.get((position + GUI.GRIDSIZE - 1)));
+                    queue.add(Grid.cellGrid.get((position - GUI.GRIDSIZE + 1)));
+                    queue.add(Grid.cellGrid.get((position + GUI.GRIDSIZE + 1)));
                     queue.add(Grid.cellGrid.get((position + 1)));
                     queue.add(Grid.cellGrid.get((position - 1)));
                 }
@@ -94,57 +94,57 @@ public class Handler {
             } else if (cell.getType() == 2) {
                 /*the functionality will be how we will determine the number*/
                 int mineCount = 0;
-                if (position < Game.GRIDSIZE) {
-                    if (position % Game.GRIDSIZE == 0) { //check if this is top left corner
-                        if (Grid.cellGrid.get((position + Game.GRIDSIZE)).getType() == 1) mineCount++;
-                        if (Grid.cellGrid.get((position + Game.GRIDSIZE + 1)).getType() == 1) mineCount++;
+                if (position < GUI.GRIDSIZE) {
+                    if (position % GUI.GRIDSIZE == 0) { //check if this is top left corner
+                        if (Grid.cellGrid.get((position + GUI.GRIDSIZE)).getType() == 1) mineCount++;
+                        if (Grid.cellGrid.get((position + GUI.GRIDSIZE + 1)).getType() == 1) mineCount++;
                         if (Grid.cellGrid.get((position + 1)).getType() == 1) mineCount++;
-                    } else if (position % Game.GRIDSIZE == Game.GRIDSIZE - 1) {     //check for top right corne
-                        if (Grid.cellGrid.get((position + Game.GRIDSIZE)).getType() == 1) mineCount++;
-                        if (Grid.cellGrid.get((position + Game.GRIDSIZE - 1)).getType() == 1) mineCount++;
+                    } else if (position % GUI.GRIDSIZE == GUI.GRIDSIZE - 1) {     //check for top right corne
+                        if (Grid.cellGrid.get((position + GUI.GRIDSIZE)).getType() == 1) mineCount++;
+                        if (Grid.cellGrid.get((position + GUI.GRIDSIZE - 1)).getType() == 1) mineCount++;
                         if (Grid.cellGrid.get((position - 1)).getType() == 1) mineCount++;
                     } else { //fot the five cells that are adjacent to the top row
-                        if (Grid.cellGrid.get((position + Game.GRIDSIZE)).getType() == 1) mineCount++;
-                        if (Grid.cellGrid.get((position + Game.GRIDSIZE + 1)).getType() == 1) mineCount++;
-                        if (Grid.cellGrid.get((position + Game.GRIDSIZE - 1)).getType() == 1) mineCount++;
+                        if (Grid.cellGrid.get((position + GUI.GRIDSIZE)).getType() == 1) mineCount++;
+                        if (Grid.cellGrid.get((position + GUI.GRIDSIZE + 1)).getType() == 1) mineCount++;
+                        if (Grid.cellGrid.get((position + GUI.GRIDSIZE - 1)).getType() == 1) mineCount++;
                         if (Grid.cellGrid.get((position + 1)).getType() == 1) mineCount++;
                         if (Grid.cellGrid.get((position - 1)).getType() == 1) mineCount++;
                     }
-                } else if (position >= Game.GRIDSIZE * (Game.GRIDSIZE - 1)) {
-                    if (position % Game.GRIDSIZE == 0) { //check if this is top left corner
-                        if (Grid.cellGrid.get((position - Game.GRIDSIZE)).getType() == 1) mineCount++;
-                        if (Grid.cellGrid.get((position - Game.GRIDSIZE + 1)).getType() == 1) mineCount++;
+                } else if (position >= GUI.GRIDSIZE * (GUI.GRIDSIZE - 1)) {
+                    if (position % GUI.GRIDSIZE == 0) { //check if this is top left corner
+                        if (Grid.cellGrid.get((position - GUI.GRIDSIZE)).getType() == 1) mineCount++;
+                        if (Grid.cellGrid.get((position - GUI.GRIDSIZE + 1)).getType() == 1) mineCount++;
                         if (Grid.cellGrid.get((position + 1)).getType() == 1) mineCount++;
-                    } else if (position % Game.GRIDSIZE == Game.GRIDSIZE - 1) {     //check for top right corne
-                        if (Grid.cellGrid.get((position - Game.GRIDSIZE)).getType() == 1) mineCount++;
-                        if (Grid.cellGrid.get((position - Game.GRIDSIZE - 1)).getType() == 1) mineCount++;
+                    } else if (position % GUI.GRIDSIZE == GUI.GRIDSIZE - 1) {     //check for top right corne
+                        if (Grid.cellGrid.get((position - GUI.GRIDSIZE)).getType() == 1) mineCount++;
+                        if (Grid.cellGrid.get((position - GUI.GRIDSIZE - 1)).getType() == 1) mineCount++;
                         if (Grid.cellGrid.get((position - 1)).getType() == 1) mineCount++;
                     } else { //fot the five cells that are adjacent to the top row
-                        if (Grid.cellGrid.get((position - Game.GRIDSIZE)).getType() == 1) mineCount++;
-                        if (Grid.cellGrid.get((position - Game.GRIDSIZE + 1)).getType() == 1) mineCount++;
-                        if (Grid.cellGrid.get((position - Game.GRIDSIZE - 1)).getType() == 1) mineCount++;
+                        if (Grid.cellGrid.get((position - GUI.GRIDSIZE)).getType() == 1) mineCount++;
+                        if (Grid.cellGrid.get((position - GUI.GRIDSIZE + 1)).getType() == 1) mineCount++;
+                        if (Grid.cellGrid.get((position - GUI.GRIDSIZE - 1)).getType() == 1) mineCount++;
                         if (Grid.cellGrid.get((position + 1)).getType() == 1) mineCount++;
                         if (Grid.cellGrid.get((position - 1)).getType() == 1) mineCount++;
                     }
-                } else if (position % Game.GRIDSIZE == 0) {
-                    if (Grid.cellGrid.get((position - Game.GRIDSIZE)).getType() == 1) mineCount++;
-                    if (Grid.cellGrid.get((position + Game.GRIDSIZE)).getType() == 1) mineCount++;
-                    if (Grid.cellGrid.get((position - Game.GRIDSIZE + 1)).getType() == 1) mineCount++;
-                    if (Grid.cellGrid.get((position + Game.GRIDSIZE + 1)).getType() == 1) mineCount++;
+                } else if (position % GUI.GRIDSIZE == 0) {
+                    if (Grid.cellGrid.get((position - GUI.GRIDSIZE)).getType() == 1) mineCount++;
+                    if (Grid.cellGrid.get((position + GUI.GRIDSIZE)).getType() == 1) mineCount++;
+                    if (Grid.cellGrid.get((position - GUI.GRIDSIZE + 1)).getType() == 1) mineCount++;
+                    if (Grid.cellGrid.get((position + GUI.GRIDSIZE + 1)).getType() == 1) mineCount++;
                     if (Grid.cellGrid.get((position + 1)).getType() == 1) mineCount++;
-                } else if (position % Game.GRIDSIZE == Game.GRIDSIZE - 1) {
-                    if (Grid.cellGrid.get((position - Game.GRIDSIZE)).getType() == 1) mineCount++;
-                    if (Grid.cellGrid.get((position + Game.GRIDSIZE)).getType() == 1) mineCount++;
-                    if (Grid.cellGrid.get((position - Game.GRIDSIZE - 1)).getType() == 1) mineCount++;
-                    if (Grid.cellGrid.get((position + Game.GRIDSIZE - 1)).getType() == 1) mineCount++;
+                } else if (position % GUI.GRIDSIZE == GUI.GRIDSIZE - 1) {
+                    if (Grid.cellGrid.get((position - GUI.GRIDSIZE)).getType() == 1) mineCount++;
+                    if (Grid.cellGrid.get((position + GUI.GRIDSIZE)).getType() == 1) mineCount++;
+                    if (Grid.cellGrid.get((position - GUI.GRIDSIZE - 1)).getType() == 1) mineCount++;
+                    if (Grid.cellGrid.get((position + GUI.GRIDSIZE - 1)).getType() == 1) mineCount++;
                     if (Grid.cellGrid.get((position + 1)).getType() == 1) mineCount++;
                 } else { //for all the remaining cells
-                    if (Grid.cellGrid.get((position - Game.GRIDSIZE)).getType() == 1) mineCount++;
-                    if (Grid.cellGrid.get((position + Game.GRIDSIZE)).getType() == 1) mineCount++;
-                    if (Grid.cellGrid.get((position - Game.GRIDSIZE - 1)).getType() == 1) mineCount++;
-                    if (Grid.cellGrid.get((position + Game.GRIDSIZE - 1)).getType() == 1) mineCount++;
-                    if (Grid.cellGrid.get((position - Game.GRIDSIZE + 1)).getType() == 1) mineCount++;
-                    if (Grid.cellGrid.get((position + Game.GRIDSIZE + 1)).getType() == 1) mineCount++;
+                    if (Grid.cellGrid.get((position - GUI.GRIDSIZE)).getType() == 1) mineCount++;
+                    if (Grid.cellGrid.get((position + GUI.GRIDSIZE)).getType() == 1) mineCount++;
+                    if (Grid.cellGrid.get((position - GUI.GRIDSIZE - 1)).getType() == 1) mineCount++;
+                    if (Grid.cellGrid.get((position + GUI.GRIDSIZE - 1)).getType() == 1) mineCount++;
+                    if (Grid.cellGrid.get((position - GUI.GRIDSIZE + 1)).getType() == 1) mineCount++;
+                    if (Grid.cellGrid.get((position + GUI.GRIDSIZE + 1)).getType() == 1) mineCount++;
                     if (Grid.cellGrid.get((position - 1)).getType() == 1) mineCount++;
                     if (Grid.cellGrid.get((position + 1)).getType() == 1) mineCount++;
                 }
@@ -166,7 +166,7 @@ public class Handler {
             for(int i = 0; i < Grid.cellGrid.size(); i++){
                 if(Grid.cellGrid.get(i).isDiscovered()) discoveredCells++; //keeping track of the cells that have been discovered
             }
-            if (discoveredCells == Grid.cellGrid.size() - Game.MINECOUNT) {
+            if (discoveredCells == Grid.cellGrid.size() - GUI.MINECOUNT) {
                 for (int x = 0; x < Grid.cellGrid.size(); x++) {
                     if (Grid.cellGrid.get(x).getType() == 1) {
                         Grid.cellGrid.get(x).setDisable(true); //disable the cell
@@ -198,11 +198,6 @@ public class Handler {
 
             }
         }
-    }
-    public static void reset(){
-        GUI.window.close();
-        GUI gui = new GUI();
-        GUI.window.show();
     }
 }
 

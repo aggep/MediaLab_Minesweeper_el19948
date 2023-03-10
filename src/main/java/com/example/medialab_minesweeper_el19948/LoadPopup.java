@@ -63,7 +63,7 @@ public class LoadPopup extends Stage {
                         Time = array[2];
                         SuperMine = array[3];
 
-                        if (Diff != 1 && Diff != 2) {
+                        if (Diff != 1 && Diff != 2) { //εξασφαλίζονται οι περιπτώσεις για τις οποίες η δυσκολία δεν είναι ούτε 1 ούτε 2.
                             throw new InvalidValueException("wrong input values!");
                         } else {
                             if (Diff == 1) {
@@ -71,22 +71,24 @@ public class LoadPopup extends Stage {
                                         (Time < 120 || Time > 180) ||
                                         (SuperMine != 0 && SuperMine != 1))
                                     throw new InvalidValueException("wrong description!");
-                               /* else{
-                                    Game.GRIDSIZE = 9;
-                                    Game.MINECOUNT = NumberOfMines;
-                                    Game.TIME = Time;
+                                else{
+                                    GUI.updateValues(Time,9, NumberOfMines);
+                                   /* GUI.GRIDSIZE = 9;
+                                    GUI.MINECOUNT = NumberOfMines;
+                                    GUI.TIME = Time; */
                                 }
-                                */
 
-                            } else {
+
+                            } else { //if difficulty = 2 -- είναι πάντα αληθής η συνθήκη αυτή αν η δυσκολία δεν είναι ίση με 1
                                 if ((NumberOfMines < 35 || NumberOfMines > 45) ||
                                         (Time < 240 || Time > 360) || (SuperMine != 0 && SuperMine != 1))
                                     throw new InvalidValueException("wrong description!");
-                               /* else {
-                                    Game.GRIDSIZE = 16;
-                                    Game.MINECOUNT = NumberOfMines;
-                                    Game.TIME = Time;
-                                } */
+                               else {
+                                    GUI.updateValues(Time,16, NumberOfMines);
+                                   /* GUI.GRIDSIZE = 16;
+                                    GUI.MINECOUNT = NumberOfMines;
+                                    GUI.TIME = Time; */
+                                }
                             }
                         }
 
@@ -96,7 +98,5 @@ public class LoadPopup extends Stage {
                 }
 
         });
-        System.out.println(Diff);
-
     }
 }

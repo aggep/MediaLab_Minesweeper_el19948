@@ -15,35 +15,35 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
 public class GUI extends Application {
-
+    /*basic game parameters
+    initialize game with default values */
+    public static int TIME = 120; //this will determine the time of the game
+    public static int GRIDSIZE = 9;
+    public static int MINECOUNT = 10;
     static Stage window;
     BorderPane layout;
     static Label infoLabel; //for the display of information s.a. Total Mines, Marked Mines
 
     private static String title;
-    private static final int MAX_TIME = Game.TIME; // Maximum time in seconds
-    private int remainingTime = MAX_TIME; // Remaining time in seconds
+    private static int MAX_TIME = TIME;// Maximum time in seconds
+    private static int remainingTime = MAX_TIME; // Remaining time in seconds
     private Label timeLabel; // for the timer display
-
-    // private final int gridSize = Game.GRIDSIZE; //this should be determined after reading the input file
 
     public static boolean gameStarted = false; //this is for the start button, we set it to false first -> it is used for the condition
 
     GridPane gridPane;
+    MenuBar menuBar = new MenuBar();
     static Timer timer = new Timer();
+
     public static void main(String[] args) {
         launch(args);
-
     }
     @Override
-
     public void start(Stage primaryStage) throws IOException {
 
         GUI.title = "MediaLab Minesweeper";
         window = primaryStage;
-
 
         /* create the menu buttons */
         Menu Menu1 = new Menu("Application");
@@ -63,6 +63,12 @@ public class GUI extends Application {
 
         MenuItem START = new MenuItem("Start");
         START.setOnAction(e ->{
+            try {
+                resetGame();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            /*
             if(gameStarted) {
                 // Stop the current game and start a new one
                 try {
@@ -70,7 +76,7 @@ public class GUI extends Application {
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-            }
+            } */
             gameStarted = true;
             startGame();
         });
@@ -103,12 +109,7 @@ public class GUI extends Application {
             show("You can now see the solution");
         });
         Menu2.getItems().add(SOLUTION);
-
-        MenuBar menuBar = new MenuBar();
         menuBar.getMenus().addAll(Menu1, Menu2);
-
-        layout = new BorderPane();
-        layout.setTop(menuBar);
 
         // create the label in a separate method
         createInfoLabel();
@@ -116,13 +117,11 @@ public class GUI extends Application {
         /* timer implementation */
         timeLabel = new Label("  Time Remaining: " + remainingTime);
 
-
         HBox topBox = new HBox();
         topBox.getChildren().addAll(menuBar, infoLabel, timeLabel);
 
         layout = new BorderPane();
         layout.setTop(topBox);
-
 
         window.setTitle(GUI.title);
 
@@ -132,29 +131,24 @@ public class GUI extends Application {
         Handler handler = new Handler();
         gridPane = new Grid(handler);
 
-
         for (Node node : gridPane.getChildren()) {
             Button button = (Button) node;
             button.setPrefSize(60, 60);
         }
 
-
         layout.setCenter(gridPane);
-
 
         Scene scene = new Scene(layout);
         window.setScene(scene);
         window.show();
-
     }
     private void createInfoLabel() {
-
         // initialize the label with default values
-        infoLabel = new Label("   Total Mines: " + Game.MINECOUNT + "   Marked Mines: 0");
+        infoLabel = new Label("   Total Mines: " + MINECOUNT + "   Marked Mines: 0");
     }
     public static void update(int flagged){
         if(infoLabel!=null) {
-            infoLabel.setText("   Total Mines: " + Game.MINECOUNT + "   Marked Mines: " + flagged);
+            infoLabel.setText("   Total Mines: " + MINECOUNT + "   Marked Mines: " + flagged);
         }
     }
     public void RanOutofTime(){ //the function is called when the timer runs out before the player finished the game
@@ -177,33 +171,71 @@ public class GUI extends Application {
 
         alert.showAndWait();
     }
-
     private void startGame(){
+
         // Start the timer
-        TimerTask task = new TimerTask() {
-            @Override
+        timer.cancel();
+        remainingTime = MAX_TIME;
+        timeLabel.setText("  Time Remaining: " + remainingTime);
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
-                remainingTime--;
                 Platform.runLater(() -> {
-                    timeLabel.setText("  Time Remaining: " + remainingTime);
-                    if (remainingTime == 0) {
-                        timer.cancel();
-                        timer.purge();
+                    remainingTime--;
+                    if (remainingTime >= 0) {
+                        timeLabel.setText("  Time Remaining: " + remainingTime);
+                    } else {
+                        // Game over, ran out of time
                         RanOutofTime();
+                        timer.cancel();
                     }
                 });
             }
-        };
-        timer.scheduleAtFixedRate(task, 1000, 1000);
+        }, 0, 1000);
     }
-    private void resetGame() throws IOException {
+    private void resetGame() throws IOException { //reset the game - new scene, new borderpane, new grid
         // Stop the timer
         timer.purge();
         remainingTime = MAX_TIME;
         timeLabel.setText("  Time Remaining: " + remainingTime);
         gameStarted = false;
+        gridPane.getChildren().clear();
 
-        Handler.reset();
+        createInfoLabel();
+
+        HBox newBox = new HBox();
+        newBox.getChildren().addAll(menuBar, infoLabel, timeLabel);
+
+        BorderPane layout1 = new BorderPane();
+        layout1.setTop(newBox);
+
+        window.setTitle(GUI.title);
+
+        Grid.cellGrid.clear();
+        Grid.mines.clear();
+
+        Handler handler = new Handler();
+        gridPane = new Grid(handler);
+
+        for (Node node : gridPane.getChildren()) {
+            Button button = (Button) node;
+            button.setPrefSize(60, 60);
+        }
+
+        layout1.setCenter(gridPane);
+
+        Scene scene1 = new Scene(layout1);
+        window.setScene(scene1);
+        window.show();
     }
+
+    public static void updateValues(int time, int gridSize, int mineCount) {
+        TIME = time;
+        GRIDSIZE = gridSize;
+        MINECOUNT = mineCount;
+        Grid.bound = GRIDSIZE *  GRIDSIZE;
+        MAX_TIME = remainingTime = TIME;
+    }
+
 
 }

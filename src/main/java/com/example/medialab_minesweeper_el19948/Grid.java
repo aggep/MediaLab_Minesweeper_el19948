@@ -8,23 +8,30 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 
 public class Grid extends GridPane {
 
-    private static final int bound = Game.GRIDSIZE * Game.GRIDSIZE; //the max position
+    public static int bound = GUI.GRIDSIZE * GUI.GRIDSIZE; //the max position
     private static boolean picked = false;
     public static ArrayList<Integer> mines = new ArrayList<Integer>();
 
     public static ArrayList<Cell> cellGrid = new ArrayList<Cell>(); //we want to access this everywhere
+    static Handler h;
+
+    static {
+        try {
+            h = new Handler();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     /*our constructor*/
     public Grid(Handler h) throws IOException {
         super();
         createCells(h);
-        addCells();
+        addCells(this);
 
     }
 
@@ -47,7 +54,7 @@ public class Grid extends GridPane {
         //the first cells we will create are the mines
         BufferedWriter writer = new BufferedWriter(new FileWriter(file)); //we will need a buffer to write the text that has the positions of the mines
         try {
-            for (int i = 1; i <= Game.MINECOUNT; i++) {
+            for (int i = 1; i <= GUI.MINECOUNT; i++) {
                 //keep creating random numbers until all numbers are unique
                 while (!picked) {
                     int minePos = (int) (Math.random() * bound);
@@ -64,40 +71,40 @@ public class Grid extends GridPane {
                 if (mines.contains(i)) { //if it is a mine
                     cellGrid.add(new Cell(1, i, false, false, h));
                     // write mine position to file
-                    int row = i / Game.GRIDSIZE;
-                    int col = i % Game.GRIDSIZE;
+                    int row = i / GUI.GRIDSIZE;
+                    int col = i % GUI.GRIDSIZE;
                     int notSuperMine = 1;
                     writer.write(row + "," + col + "," + notSuperMine + "\n");
-                } else if (i % Game.GRIDSIZE == 0) { //for the left side
+                } else if (i % GUI.GRIDSIZE == 0) { //for the left side
                     if (
-                            mines.contains(i - Game.GRIDSIZE) || //directly above
-                                    mines.contains(i - Game.GRIDSIZE + 1) || //directly above to the right
+                            mines.contains(i - GUI.GRIDSIZE) || //directly above
+                                    mines.contains(i - GUI.GRIDSIZE + 1) || //directly above to the right
                                     mines.contains(i - 1) || mines.contains(i + 1) ||
-                                    mines.contains(i + Game.GRIDSIZE) || //directly below
-                                    mines.contains((i + Game.GRIDSIZE + 1))) //directly below to the right
+                                    mines.contains(i + GUI.GRIDSIZE) || //directly below
+                                    mines.contains((i + GUI.GRIDSIZE + 1))) //directly below to the right
                     {
                         cellGrid.add(new Cell(2, i, false, false, h));
                     } else {
                         cellGrid.add(new Cell(0, i, false, false, h));
                     }
-                } else if (i % Game.GRIDSIZE == Game.GRIDSIZE - 1) {
-                    if (mines.contains(i - Game.GRIDSIZE - 1) || //to the left above it
-                            mines.contains(i - Game.GRIDSIZE) || //directly above
+                } else if (i % GUI.GRIDSIZE == GUI.GRIDSIZE - 1) {
+                    if (mines.contains(i - GUI.GRIDSIZE - 1) || //to the left above it
+                            mines.contains(i - GUI.GRIDSIZE) || //directly above
 
-                            mines.contains(i - 1) || mines.contains(i + Game.GRIDSIZE - 1) || //bottom to the left
-                            mines.contains(i + Game.GRIDSIZE)) {
+                            mines.contains(i - 1) || mines.contains(i + GUI.GRIDSIZE - 1) || //bottom to the left
+                            mines.contains(i + GUI.GRIDSIZE)) {
                         cellGrid.add(new Cell(2, i, false, false, h));
                     } else {
                         cellGrid.add(new Cell(0, i, false, false, h));
                     }
 
                 } else {
-                    if (mines.contains(i - Game.GRIDSIZE - 1) || //to the left above it
-                            mines.contains(i - Game.GRIDSIZE) || //directly above
-                            mines.contains(i - Game.GRIDSIZE + 1) || //directly above to the right
-                            mines.contains(i - 1) || mines.contains(i + 1) || mines.contains(i + Game.GRIDSIZE - 1) || //bottom to the left
-                            mines.contains(i + Game.GRIDSIZE) || //directly below
-                            mines.contains((i + Game.GRIDSIZE + 1))) //directly below to the right
+                    if (mines.contains(i - GUI.GRIDSIZE - 1) || //to the left above it
+                            mines.contains(i - GUI.GRIDSIZE) || //directly above
+                            mines.contains(i - GUI.GRIDSIZE + 1) || //directly above to the right
+                            mines.contains(i - 1) || mines.contains(i + 1) || mines.contains(i + GUI.GRIDSIZE - 1) || //bottom to the left
+                            mines.contains(i + GUI.GRIDSIZE) || //directly below
+                            mines.contains((i + GUI.GRIDSIZE + 1))) //directly below to the right
                     {
                         cellGrid.add(new Cell(2, i, false, false, h));
                     } else {
@@ -112,15 +119,11 @@ public class Grid extends GridPane {
         } catch(IOException e){
             System.err.println("Failed to save mine positions to file.");
         }
-
+      //  System.out.println(bound+ " "+ GUI.GRIDSIZE); used for debugging
     }
-    public void addCells() {
+    public static void addCells(Grid grid) {
         for (int i = 0; i < cellGrid.size(); i++) {
-            add(cellGrid.get(i), i % Game.GRIDSIZE, i / Game.GRIDSIZE); // add cell to GridPane at specified row and column
+            grid.add(cellGrid.get(i), i % GUI.GRIDSIZE, i / GUI.GRIDSIZE); // add cell to GridPane at specified row and column
         }
     }
-
-
-
-
 }

@@ -21,13 +21,19 @@ public class GUI extends Application {
     public static int TIME = 120; //this will determine the time of the game
     public static int GRIDSIZE = 9;
     public static int MINECOUNT = 10;
+
+    /* for the Rounds functionality */
+    public static String[] WINNER = new String[6];
+    public static int GAMES = 0;
+    public static int[] TOTALGAMETIME = new int[6] ;
+    public static int[] ATTEMPTS = new int[6] ; //θεωρώ ότι οι προσπάθειες είναι πόσα "πατήματα" (clicks) κάνει ο χρήστης σε κάθε παιχνίδι
     static Stage window;
     BorderPane layout;
     static Label infoLabel; //for the display of information s.a. Total Mines, Marked Mines
 
     private static String title;
-    private static int MAX_TIME = TIME;// Maximum time in seconds
-    private static int remainingTime = MAX_TIME; // Remaining time in seconds
+    public static int MAX_TIME = TIME;// Maximum time in seconds
+    public static int remainingTime = MAX_TIME; // Remaining time in seconds
     private Label timeLabel; // for the timer display
 
     public static boolean gameStarted = false; //this is for the start button, we set it to false first -> it is used for the condition
@@ -77,6 +83,9 @@ public class GUI extends Application {
                     throw new RuntimeException(ex);
                 }
             } */
+            GAMES++;
+            gameCounter(GAMES); //everytime we start a game, we increment the GAMES variable
+            System.out.println(GAMES);
             gameStarted = true;
             startGame();
         });
@@ -92,11 +101,19 @@ public class GUI extends Application {
 
         Menu Menu2 = new Menu("Details");
 
-        Menu2.getItems().add(new MenuItem("Rounds"));
+
+        MenuItem ROUNDS = new MenuItem(("Rounds"));
+        ROUNDS.setOnAction((e-> {
+            RoundsPopup popup2 = new RoundsPopup();
+            popup2.show();
+        }));
+        Menu2.getItems().add(ROUNDS);
 
         MenuItem SOLUTION = new MenuItem("Solution");
         SOLUTION.setOnAction( e->{
             timer.cancel();
+            TOTALGAMETIME[GAMES] = MAX_TIME - remainingTime; //total time = max_time- remaining_time (this is considered an ended game)
+            GUI.WINNER[GUI.GAMES] = "computer"; //the game is lost, thus the computer has one | 1: Player is the winner - 0: Computer is the winner
             for (int x = 0; x < Grid.cellGrid.size(); x++) {
                 if (Grid.cellGrid.get(x).getType() == 1) {
                     Grid.cellGrid.get(x).setDisable(true); //disable the cell
@@ -152,6 +169,8 @@ public class GUI extends Application {
         }
     }
     public void RanOutofTime(){ //the function is called when the timer runs out before the player finished the game
+        TOTALGAMETIME[GAMES] = MAX_TIME;
+        GUI.WINNER[GUI.GAMES] = "computer";
         for (int x = 0; x < Grid.cellGrid.size(); x++) {
             if (Grid.cellGrid.get(x).getType() == 1) {
                 Grid.cellGrid.get(x).setDisable(true); //disable the cell
@@ -172,7 +191,6 @@ public class GUI extends Application {
         alert.showAndWait();
     }
     private void startGame(){
-
         // Start the timer
         timer.cancel();
         remainingTime = MAX_TIME;
@@ -235,6 +253,12 @@ public class GUI extends Application {
         MINECOUNT = mineCount;
         Grid.bound = GRIDSIZE *  GRIDSIZE;
         MAX_TIME = remainingTime = TIME;
+    }
+
+    public static void gameCounter(int games){
+        if(games == 6){
+            GAMES = 0;
+        }
     }
 
 

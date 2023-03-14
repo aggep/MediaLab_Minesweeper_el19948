@@ -90,6 +90,9 @@ public class Handler {
                 }
                 cell.setText("*"); //the cell we have clicked on that made us lose the game is distinguished by an "*"
                 GUI.timer.cancel();
+                GUI.TOTALGAMETIME[GUI.GAMES] = GUI.MAX_TIME - GUI.remainingTime;
+                GUI.WINNER[GUI.GAMES] = "computer";
+               // System.out.println(GUI.TOTALGAMETIME[GUI.GAMES]); used for debugging
                 GUI.show("Oops! You clicked on a mine!");
             } else if (cell.getType() == 2) {
                 /*the functionality will be how we will determine the number*/
@@ -178,6 +181,8 @@ public class Handler {
                 }
                 GameWon = true;
                 GUI.timer.cancel();
+                GUI.TOTALGAMETIME[GUI.GAMES] = GUI.MAX_TIME - GUI.remainingTime;
+                GUI.WINNER[GUI.GAMES] = "player";
                 GUI.show("You won!");
             }
         }

@@ -50,7 +50,11 @@ public class Cell extends Button {
     }
 
     public void clickButton() {
-       if(GUI.gameStarted == true) handler.click(this);
+       if(GUI.gameStarted == true) {
+           handler.click(this);
+           GUI.ATTEMPTS[GUI.GAMES]++; //everytime we click, the attempts of a game are being incremented by one
+         //  System.out.println(GUI.ATTEMPTS[GUI.GAMES]); used for debugging
+       }
     }
 
     public void rightClickButton(){

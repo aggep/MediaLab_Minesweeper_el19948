@@ -13,8 +13,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class CreatePopup extends Stage {
 
+public class CreatePopup extends Stage {
+    public static int SuperMine;
     public CreatePopup() {
         VBox root = new VBox();
         root.setPadding(new Insets(12));
@@ -45,7 +46,6 @@ public class CreatePopup extends Stage {
             String scenarioId = scenarioIdField.getText();
             String difficulty = difficultyField.getText();
             String mines = minesField.getText();
-            int SuperMine ;
             if(SuperMineBox.isSelected())
                 SuperMine = 1;
             else SuperMine = 0;

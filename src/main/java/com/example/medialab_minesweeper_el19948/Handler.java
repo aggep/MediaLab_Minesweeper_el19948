@@ -4,17 +4,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Handler {
-
-    private static ArrayList<Cell> current = new ArrayList<Cell>(); //create two arrays that will handle the cells differently, depending on their "states"
-    private static ArrayList<Cell> queue = new ArrayList<Cell>();
+    private static ArrayList<Cell> current = new ArrayList<>(); //create two arrays that will handle the cells differently, depending on their "states"
+    private static ArrayList<Cell> queue = new ArrayList<>();
     private static int flaggedCells = 0; //keeps track of the flagged cells
-
-    public static boolean GameWon = false; //we initialize it first as false
-
-    public Handler() throws IOException {
-    }
+    public Handler() throws IOException {}
 
     public static void click(Cell cell) {
+        GUI.ATTEMPTS[GUI.GAMES]++; //everytime we click, the attempts of a game are being incremented by one
         int discoveredCells = 0; //how many cells are discovered during the game
         if (!cell.isFlagged()) { //we do this because we should not be able to click on cells that are flagged
             cell.setDisable(true);
@@ -90,9 +86,10 @@ public class Handler {
                 }
                 cell.setText("*"); //the cell we have clicked on that made us lose the game is distinguished by an "*"
                 GUI.timer.cancel();
-                GUI.TOTALGAMETIME[GUI.GAMES] = GUI.MAX_TIME - GUI.remainingTime;
+                GUI.TOTALGAMETIME[GUI.GAMES] = (GUI.MAX_TIME - GUI.remainingTime);
                 GUI.WINNER[GUI.GAMES] = "computer";
-               // System.out.println(GUI.TOTALGAMETIME[GUI.GAMES]); used for debugging
+                GUI.gameEnded = true;
+                //System.out.println(GUI.TOTALGAMETIME[GUI.GAMES]); used for debugging
                 GUI.show("Oops! You clicked on a mine!");
             } else if (cell.getType() == 2) {
                 /*the functionality will be how we will determine the number*/
@@ -152,6 +149,8 @@ public class Handler {
                     if (Grid.cellGrid.get((position + 1)).getType() == 1) mineCount++;
                 }
                 cell.setText(String.valueOf(mineCount)); //assign the value of the chosen cell to the mineCount
+            } else if(cell.getType() == 3 && GUI.ATTEMPTS[GUI.GAMES] <= 4) { //if the cell is type 3 and the number of attempts is less than or equal to 4, then
+
             }
             for(int x = 0; x < queue.size(); x++) {
                 if (!queue.get(x).isDiscovered()) {
@@ -164,7 +163,6 @@ public class Handler {
                 Cell temp = current.get(0); //the 1st item in our current array list
                 current.remove(0);
                 temp.clickButton();
-
             }
             for(int i = 0; i < Grid.cellGrid.size(); i++){
                 if(Grid.cellGrid.get(i).isDiscovered()) discoveredCells++; //keeping track of the cells that have been discovered
@@ -179,10 +177,10 @@ public class Handler {
                         Grid.cellGrid.get(x).setText("!");
                     }
                 }
-                GameWon = true;
                 GUI.timer.cancel();
-                GUI.TOTALGAMETIME[GUI.GAMES] = GUI.MAX_TIME - GUI.remainingTime;
+                GUI.TOTALGAMETIME[GUI.GAMES] = (GUI.MAX_TIME - GUI.remainingTime);
                 GUI.WINNER[GUI.GAMES] = "player";
+                GUI.gameEnded = true;
                 GUI.show("You won!");
             }
         }
@@ -200,7 +198,6 @@ public class Handler {
                 cell.setText("");
                 flaggedCells--;
                 GUI.update(flaggedCells);
-
             }
         }
     }

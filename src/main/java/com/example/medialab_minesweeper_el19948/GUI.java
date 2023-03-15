@@ -21,23 +21,20 @@ public class GUI extends Application {
     public static int TIME = 120; //this will determine the time of the game
     public static int GRIDSIZE = 9;
     public static int MINECOUNT = 10;
-
     /* for the Rounds functionality */
-    public static String[] WINNER = new String[6];
+    public static String[] WINNER = new String[7];
     public static int GAMES = 0;
-    public static int[] TOTALGAMETIME = new int[6] ;
-    public static int[] ATTEMPTS = new int[6] ; //θεωρώ ότι οι προσπάθειες είναι πόσα "πατήματα" (clicks) κάνει ο χρήστης σε κάθε παιχνίδι
+    public static int[] TOTALGAMETIME = new int[7];
+    public static int[] ATTEMPTS = new int[7]; //θεωρώ ότι οι προσπάθειες είναι πόσα "πατήματα" (clicks) κάνει ο χρήστης σε κάθε παιχνίδι
     static Stage window;
     BorderPane layout;
     static Label infoLabel; //for the display of information s.a. Total Mines, Marked Mines
-
     private static String title;
     public static int MAX_TIME = TIME;// Maximum time in seconds
     public static int remainingTime = MAX_TIME; // Remaining time in seconds
     private Label timeLabel; // for the timer display
-
     public static boolean gameStarted = false; //this is for the start button, we set it to false first -> it is used for the condition
-
+    public static boolean gameEnded = false;
     GridPane gridPane;
     MenuBar menuBar = new MenuBar();
     static Timer timer = new Timer();
@@ -74,18 +71,12 @@ public class GUI extends Application {
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
-            /*
-            if(gameStarted) {
-                // Stop the current game and start a new one
-                try {
-                    resetGame();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            } */
-            GAMES++;
+            if(GAMES < 6)
+                GAMES++;
+            else
+                GAMES = 6;
             gameCounter(GAMES); //everytime we start a game, we increment the GAMES variable
-            System.out.println(GAMES);
+            // System.out.println(GAMES); used for debugging
             gameStarted = true;
             startGame();
         });
@@ -98,9 +89,7 @@ public class GUI extends Application {
         });
         Menu1.getItems().add(EXIT);
 
-
         Menu Menu2 = new Menu("Details");
-
 
         MenuItem ROUNDS = new MenuItem(("Rounds"));
         ROUNDS.setOnAction((e-> {
@@ -113,7 +102,7 @@ public class GUI extends Application {
         SOLUTION.setOnAction( e->{
             timer.cancel();
             TOTALGAMETIME[GAMES] = MAX_TIME - remainingTime; //total time = max_time- remaining_time (this is considered an ended game)
-            GUI.WINNER[GUI.GAMES] = "computer"; //the game is lost, thus the computer has one | 1: Player is the winner - 0: Computer is the winner
+            GUI.WINNER[GUI.GAMES] = "computer"; //the game is lost
             for (int x = 0; x < Grid.cellGrid.size(); x++) {
                 if (Grid.cellGrid.get(x).getType() == 1) {
                     Grid.cellGrid.get(x).setDisable(true); //disable the cell
@@ -135,7 +124,7 @@ public class GUI extends Application {
         timeLabel = new Label("  Time Remaining: " + remainingTime);
 
         HBox topBox = new HBox();
-        topBox.getChildren().addAll(menuBar, infoLabel, timeLabel);
+        topBox.getChildren().addAll(menuBar, infoLabel, timeLabel); //add all elements to the top bar
 
         layout = new BorderPane();
         layout.setTop(topBox);
@@ -169,8 +158,11 @@ public class GUI extends Application {
         }
     }
     public void RanOutofTime(){ //the function is called when the timer runs out before the player finished the game
+        timer.cancel();
+        timer.purge();
         TOTALGAMETIME[GAMES] = MAX_TIME;
-        GUI.WINNER[GUI.GAMES] = "computer";
+        WINNER[GAMES] = "computer";
+        gameEnded = true;
         for (int x = 0; x < Grid.cellGrid.size(); x++) {
             if (Grid.cellGrid.get(x).getType() == 1) {
                 Grid.cellGrid.get(x).setDisable(true); //disable the cell
@@ -192,6 +184,7 @@ public class GUI extends Application {
     }
     private void startGame(){
         // Start the timer
+        gameEnded = false;
         timer.cancel();
         remainingTime = MAX_TIME;
         timeLabel.setText("  Time Remaining: " + remainingTime);
@@ -200,12 +193,11 @@ public class GUI extends Application {
             public void run() {
                 Platform.runLater(() -> {
                     remainingTime--;
-                    if (remainingTime >= 0) {
+                    if (remainingTime > 0 && gameEnded == false) {
                         timeLabel.setText("  Time Remaining: " + remainingTime);
-                    } else {
+                    } else if(remainingTime == 0 && gameEnded == false){
                         // Game over, ran out of time
                         RanOutofTime();
-                        timer.cancel();
                     }
                 });
             }
@@ -216,6 +208,9 @@ public class GUI extends Application {
         timer.purge();
         remainingTime = MAX_TIME;
         timeLabel.setText("  Time Remaining: " + remainingTime);
+        if(gameEnded == false) { //if the game has not ended it does not count as a completed game in order for its data to be in the Rounds
+            GAMES--;
+        }
         gameStarted = false;
         gridPane.getChildren().clear();
 
@@ -255,9 +250,22 @@ public class GUI extends Application {
         MAX_TIME = remainingTime = TIME;
     }
 
-    public static void gameCounter(int games){
-        if(games == 6){
-            GAMES = 0;
+    public static void gameCounter(int games){ //this function removes the first element of the array and shifts the rest elements one position to the left
+        if(games >= 6){
+            //shift elements one position to the left
+            for (int i = 0; i < TOTALGAMETIME.length - 1; i++) {
+                TOTALGAMETIME[i] = TOTALGAMETIME[i+1];
+            }
+            for (int i = 0; i < WINNER.length - 1; i++) {
+                WINNER[i] = WINNER[i+1];
+            }
+            for (int i = 0; i < ATTEMPTS.length - 1; i++) {
+                    ATTEMPTS[i] = ATTEMPTS[i+1];
+            }
+           /*
+            System.arraycopy(TOTALGAMETIME, 1, TOTALGAMETIME, 0, TOTALGAMETIME.length-1);
+            System.arraycopy(WINNER, 1, WINNER, 0, WINNER.length-1);
+            System.arraycopy(ATTEMPTS, 1, ATTEMPTS, 0, ATTEMPTS.length-1); */
         }
     }
 

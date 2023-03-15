@@ -14,11 +14,11 @@ import javafx.stage.Stage;
 public class RoundsPopup extends Stage {
 
     private final ObservableList<Results> data =
-            FXCollections.observableArrayList(new Results(1, GUI.ATTEMPTS[1], GUI.TOTALGAMETIME[1], GUI.WINNER[1]),
-                    new Results(2, GUI.ATTEMPTS[2], GUI.TOTALGAMETIME[2], GUI.WINNER[2]),
-                    new Results(3, GUI.ATTEMPTS[3], GUI.TOTALGAMETIME[3], GUI.WINNER[3]),
-                    new Results(4, GUI.ATTEMPTS[4], GUI.TOTALGAMETIME[4], GUI.WINNER[4]),
-                    new Results(5, GUI.ATTEMPTS[5], GUI.TOTALGAMETIME[5], GUI.WINNER[5]));
+            FXCollections.observableArrayList(new Results(1, GUI.ATTEMPTS[0], GUI.TOTALGAMETIME[0], GUI.WINNER[0]),
+                    new Results(2, GUI.ATTEMPTS[1], GUI.TOTALGAMETIME[1], GUI.WINNER[1]),
+                    new Results(3, GUI.ATTEMPTS[2], GUI.TOTALGAMETIME[2], GUI.WINNER[2]),
+                    new Results(4, GUI.ATTEMPTS[3], GUI.TOTALGAMETIME[3], GUI.WINNER[3]),
+                    new Results(5, GUI.ATTEMPTS[4], GUI.TOTALGAMETIME[4], GUI.WINNER[4]));
     public RoundsPopup() {
         Stage popupWindow = new Stage();
         popupWindow.initModality(Modality.APPLICATION_MODAL);

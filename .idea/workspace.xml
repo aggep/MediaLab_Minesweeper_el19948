@@ -7,8 +7,12 @@
     <list default="true" id="30254ff7-e7bd-4f11-ba98-0c0a7d40ef9e" name="Changes" comment="Improved the Start and Load buttons' functionalities">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/Cell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/Cell.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/CreatePopup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/CreatePopup.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/Grid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/Grid.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/Handler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/Handler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/Results.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/RoundsPopup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/RoundsPopup.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/medialab_minesweeper_el19948/hello-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/medialab_minesweeper_el19948/hello-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -70,7 +74,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678411925101</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Improved the Start and Load buttons' functionalities">
+      <created>1678752515680</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1678752515680</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

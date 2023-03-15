@@ -2,6 +2,8 @@ package com.example.medialab_minesweeper_el19948;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 
+import java.lang.reflect.GenericArrayType;
+
 public class Cell extends Button {
     private int type;
     private int position;
@@ -52,7 +54,6 @@ public class Cell extends Button {
     public void clickButton() {
        if(GUI.gameStarted == true) {
            handler.click(this);
-           GUI.ATTEMPTS[GUI.GAMES]++; //everytime we click, the attempts of a game are being incremented by one
          //  System.out.println(GUI.ATTEMPTS[GUI.GAMES]); used for debugging
        }
     }

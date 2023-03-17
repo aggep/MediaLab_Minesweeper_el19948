@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30254ff7-e7bd-4f11-ba98-0c0a7d40ef9e" name="Changes" comment="Added more color, fixed bugs and implemented the super-mine">
+    <list default="true" id="30254ff7-e7bd-4f11-ba98-0c0a7d40ef9e" name="Changes" comment="fixed bugs concerning the gameCounter function and  the Load Popup">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/Cell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/Cell.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/Handler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/Handler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/LoadPopup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/LoadPopup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/RoundsPopup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/RoundsPopup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/InvalidDescriptionException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/InvalidDescriptionException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/InvalidValueException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/InvalidValueException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/medialab_minesweeper_el19948/hello-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/medialab_minesweeper_el19948/hello-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -93,7 +90,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679018176119</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="fixed bugs concerning the gameCounter function and  the Load Popup">
+      <created>1679078357141</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1679078357141</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -111,7 +115,8 @@
     <MESSAGE value="Altered the files in order to add functionality to the &quot;Exit&quot;, &quot;Start&quot;, and &quot;Soltuion&quot; buttons" />
     <MESSAGE value="Improved the Start and Load buttons' functionalities" />
     <MESSAGE value="Added more color, fixed bugs and implemented the super-mine" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added more color, fixed bugs and implemented the super-mine" />
+    <MESSAGE value="fixed bugs concerning the gameCounter function and  the Load Popup" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed bugs concerning the gameCounter function and  the Load Popup" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

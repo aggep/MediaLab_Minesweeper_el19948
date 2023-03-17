@@ -1,15 +1,16 @@
 package com.example.medialab_minesweeper_el19948;
 
 import javafx.geometry.Insets;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextInputDialog;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Optional;
 import java.util.Scanner;
 
 
@@ -24,7 +25,6 @@ public class LoadPopup extends Stage {
     public LoadPopup(){
 
         this.initModality(Modality.APPLICATION_MODAL);
-       // this.initStyle(StageStyle.UTILITY);
         setResizable(false);
 
         VBox root = new VBox();
@@ -34,18 +34,30 @@ public class LoadPopup extends Stage {
         gridPane.setHgap(12);
         gridPane.setVgap(12);
 
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Load Scenario");
-        dialog.setHeaderText(null);
-        dialog.setContentText("Please enter scenario ID:");
+        Label scenarioLabel = new Label("Scenario ID:");
+        TextField scenarioTextField = new TextField();
+        HBox scenarioBox = new HBox(scenarioLabel, scenarioTextField);
+        scenarioBox.setSpacing(10);
 
-        Optional<String> result = dialog.showAndWait();
+        // create button to initiate scenario search
+        Button searchButton = new Button("Load");
+        HBox button = new HBox(searchButton);
+        button.setAlignment(Pos.BOTTOM_RIGHT); //to position the button properly
+        button.setPadding(new Insets(5));
 
-        result.ifPresent(scenarioId -> {
-            String filePath = System.getProperty("user.home") + "/medialab/" + scenarioId + ".txt";
+        searchButton.setOnAction(event -> {
+            // retrieve scenario ID from text field
+            String scenarioID = scenarioTextField.getText().trim();
+
+            String filePath = System.getProperty("user.home") + "/medialab/" + scenarioID + ".txt";
             String fileContent = "";
 
             File file = new File(filePath);
+            if (!file.exists()) {
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR, "Scenario file not found.");
+                errorAlert.show();
+                return;
+            }
             Scanner scan ;
             try {
                 scan = new Scanner(file);
@@ -81,7 +93,7 @@ public class LoadPopup extends Stage {
                                 else{
                                     GUI.updateValues(Time,9, NumberOfMines);
                                     // Show a success message in a new popup window
-                                    Alert successAlert = new Alert(Alert.AlertType.INFORMATION, "Description file loaded successfully.");
+                                    Alert successAlert = new Alert(Alert.AlertType.CONFIRMATION, "Description file loaded successfully.");
                                     successAlert.show();
                                 }
 
@@ -94,15 +106,20 @@ public class LoadPopup extends Stage {
                                     GUI.updateValues(Time,16, NumberOfMines);
                                 }
                                 // Show a success message in a new popup window
-                                Alert successAlert = new Alert(Alert.AlertType.INFORMATION, "Description file loaded successfully.");
+                                Alert successAlert = new Alert(Alert.AlertType.CONFIRMATION, "Description file loaded successfully.");
                                 successAlert.show();
                             }
                         }
-
                     }
                 } catch (InvalidDescriptionException e) {
                     throw new InvalidDescriptionException("incorrect number of lines: ");
                 }
+                this.close();
         });
+        root.getChildren().addAll(gridPane, scenarioBox, button);
+
+        Scene scene = new Scene(root);
+        this.setScene(scene);
+        this.setTitle("Load Scenario");
     }
 }

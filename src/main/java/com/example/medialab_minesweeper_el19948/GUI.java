@@ -99,11 +99,13 @@ public class GUI extends Application {
         MenuItem SOLUTION = new MenuItem("Solution");
         SOLUTION.setOnAction( e->{
             timer.cancel();
-           if(GAMES == 5){
-                gameCounter(GAMES);
-            }
+
             TOTALGAMETIME[GAMES] = MAX_TIME - remainingTime; //total time = max_time- remaining_time (this is considered an ended game)
             GUI.WINNER[GUI.GAMES] = "computer"; //the game is lost
+            if(GAMES == 5){
+                gameCounter(GAMES);
+            }
+
             for (int x = 0; x < Grid.cellGrid.size(); x++) {
                 if (Grid.cellGrid.get(x).getType() == 1) {
                     Grid.cellGrid.get(x).setDisable(true); //disable the cell
@@ -173,11 +175,11 @@ public class GUI extends Application {
     public void RanOutofTime(){ //the function is called when the timer runs out before the player finished the game
         timer.cancel();
         timer.purge();
+        TOTALGAMETIME[GAMES] = MAX_TIME;
+        WINNER[GAMES] = "computer";
         if(GUI.GAMES == 5){
             GUI.gameCounter(GUI.GAMES);
         }
-        TOTALGAMETIME[GAMES] = MAX_TIME;
-        WINNER[GAMES] = "computer";
         gameEnded = true;
         for (int x = 0; x < Grid.cellGrid.size(); x++) {
             if (Grid.cellGrid.get(x).getType() == 1) {
@@ -218,9 +220,9 @@ public class GUI extends Application {
             public void run() {
                 Platform.runLater(() -> {
                     remainingTime--;
-                    if (remainingTime > 0 && gameEnded == false) {
+                    if (remainingTime > 0 && !gameEnded) {
                         timeLabel.setText("  Time Remaining: " + remainingTime);
-                    } else if(remainingTime == 0 && gameEnded == false){
+                    } else if(remainingTime == 0 && !gameEnded){
                         // Game over, ran out of time
                         RanOutofTime();
                     }
@@ -233,7 +235,7 @@ public class GUI extends Application {
         timer.purge();
         remainingTime = MAX_TIME;
         timeLabel.setText("  Time Remaining: " + remainingTime);
-        if(gameEnded == false) { //if the game has not ended it does not count as a completed game in order for its data to be in the Rounds
+        if(!gameEnded) { //if the game has not ended it does not count as a completed game in order for its data to be in the Rounds
             GAMES--;
         }
         gameStarted = false;
@@ -290,7 +292,7 @@ public class GUI extends Application {
      */
     public static void gameCounter(int games) { //this function removes the first element of the array and shifts the rest elements one position to the left
         //shift elements one position to the left
-        if (games == 5) {
+        if (games >= 4) {
             for (int i = 0; i < TOTALGAMETIME.length - 1; i++) {
                 TOTALGAMETIME[i] = TOTALGAMETIME[i + 1];
             }

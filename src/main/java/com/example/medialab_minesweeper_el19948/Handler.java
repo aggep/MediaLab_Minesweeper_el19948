@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Handler {
-    private static ArrayList<Cell> current = new ArrayList<>(); //create two arrays that will handle the cells differently, depending on their "states"
-    private static ArrayList<Cell> queue = new ArrayList<>();
+    private static final ArrayList<Cell> current = new ArrayList<>(); //create two arrays that will handle the cells differently, depending on their "states"
+    private static final ArrayList<Cell> queue = new ArrayList<>();
     private static int flaggedCells = 0; //keeps track of the flagged cells
 
     public Handler() throws IOException {
@@ -17,7 +17,7 @@ public class Handler {
     /**
      * Implements the click function
      *
-     * @param cell
+     * @param cell: the cell the user wants to click on
      */
     public static void click(Cell cell) {
         GUI.ATTEMPTS[GUI.GAMES]++; //everytime we click, the attempts of a game are being incremented by one
@@ -102,12 +102,16 @@ public class Handler {
                 cell.setTextFill(Color.RED); //the cell we have clicked on that made us lose the game is distinguished by an "*"
                 GUI.timer.cancel();
                 GUI.gameEnded = true;
+                GUI.TOTALGAMETIME[GUI.GAMES] = (GUI.MAX_TIME - GUI.remainingTime);
+                GUI.WINNER[GUI.GAMES] = "computer";
                 if (GUI.GAMES == 5) {
                     GUI.gameCounter(GUI.GAMES);
                 }
-                GUI.TOTALGAMETIME[GUI.GAMES] = (GUI.MAX_TIME - GUI.remainingTime);
-                GUI.WINNER[GUI.GAMES] = "computer";
-                //System.out.println(GUI.TOTALGAMETIME[GUI.GAMES]); used for debugging
+               /* System.out.println(GUI.WINNER[GUI.GAMES]);
+                System.out.println(GUI.GAMES);
+                System.out.println(GUI.TOTALGAMETIME[GUI.GAMES]); //used for debugging
+                System.out.println(GUI.WINNER[GUI.GAMES] + " " + GUI.WINNER[4]);
+                */
                 GUI.show("Oops! You clicked on a mine!");
             } else if (cell.getType() == 2) {
                 /*the functionality will be how we will determine the number*/
@@ -214,12 +218,11 @@ public class Handler {
                 cell.setBackground(Background.fill(Color.RED));
                 GUI.timer.cancel();
                 GUI.gameEnded = true;
+                GUI.TOTALGAMETIME[GUI.GAMES] = (GUI.MAX_TIME - GUI.remainingTime);
+                GUI.WINNER[GUI.GAMES] = "computer";
                 if (GUI.GAMES == 5) {
                     GUI.gameCounter(GUI.GAMES);
                 }
-                GUI.TOTALGAMETIME[GUI.GAMES] = (GUI.MAX_TIME - GUI.remainingTime);
-                GUI.WINNER[GUI.GAMES] = "computer";
-
                 //System.out.println(GUI.TOTALGAMETIME[GUI.GAMES]); used for debugging
                 GUI.show("Oops! You clicked on a mine!");
             }
@@ -256,11 +259,12 @@ public class Handler {
                 }
                 GUI.timer.cancel();
                 GUI.gameEnded = true;
+
+                GUI.TOTALGAMETIME[GUI.GAMES] = (GUI.MAX_TIME - GUI.remainingTime);
+                GUI.WINNER[GUI.GAMES] = "player";
                 if (GUI.GAMES == 5) {
                     GUI.gameCounter(GUI.GAMES);
                 }
-                GUI.TOTALGAMETIME[GUI.GAMES] = (GUI.MAX_TIME - GUI.remainingTime);
-                GUI.WINNER[GUI.GAMES] = "player";
                 GUI.show("You won!");
             }
         }
@@ -270,7 +274,7 @@ public class Handler {
 
     /**
      * Implements the functionality of being able to flag a cell
-     * @param cell
+     * @param cell: the cell the user wants to right-click on
      */
     public void rightClick(Cell cell) {
         if (!cell.isDiscovered()) {

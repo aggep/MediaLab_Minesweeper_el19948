@@ -54,27 +54,11 @@ public class RoundsPopup extends Stage {
         private final int thirdColumn;
         private final String fourthColumn;
 
-
             public Results(int firstColumn, int secondColumn, int thirdColumn, String fourthColumn) {
             this.firstColumn = firstColumn;
             this.secondColumn = secondColumn;
             this.thirdColumn = thirdColumn;
             this.fourthColumn = fourthColumn;
-        }
-        public int getFirstColumn() {
-            return firstColumn;
-        }
-
-        public int getSecondColumn() {
-            return secondColumn;
-        }
-
-        public int getThirdColumn() {
-            return thirdColumn;
-        }
-
-        public String getFourthColumn() {
-            return fourthColumn;
         }
 
     }

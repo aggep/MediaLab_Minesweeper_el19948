@@ -208,14 +208,9 @@ public class Handler {
                         Grid.cellGrid.get(j).setText("X"); // the cells that have mines hidden underneath them are revealed with an "X"
                         Grid.cellGrid.get(j).setBackground(Background.fill(Color.LIGHTCORAL));
                     }
-                    else if (Grid.cellGrid.get(j).getType() == 3) { //if cell is a mine cell
-                        Grid.cellGrid.get(j).setText("X!"); // the cells that have mines hidden underneath them are revealed with an "X"
-                        Grid.cellGrid.get(j).setBackground(Background.fill(Color.GOLD));
-                    }
-
                 }
-                cell.setText("X"); //the cell we have clicked on that made us lose the game is distinguished by an "X"
-                cell.setBackground(Background.fill(Color.RED));
+                cell.setText("X!"); //the cell we have clicked on that made us lose the game is distinguished by an "X"
+                cell.setBackground(Background.fill(Color.LIGHTCORAL));
                 GUI.timer.cancel();
                 GUI.gameEnded = true;
                 GUI.TOTALGAMETIME[GUI.GAMES] = (GUI.MAX_TIME - GUI.remainingTime);

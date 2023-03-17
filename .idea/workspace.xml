@@ -11,7 +11,7 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/GUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/Grid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/Grid.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/Handler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/Handler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/Results.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/LoadPopup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/LoadPopup.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/RoundsPopup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/RoundsPopup.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/medialab_minesweeper_el19948/hello-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/medialab_minesweeper_el19948/hello-view.fxml" afterDir="false" />
     </list>
@@ -81,7 +81,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678752515680</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Improved the Start and Load buttons' functionalities">
+      <created>1678922598257</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1678922598257</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

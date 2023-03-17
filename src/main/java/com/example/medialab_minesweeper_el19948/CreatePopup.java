@@ -17,6 +17,7 @@ import java.io.IOException;
 public class CreatePopup extends Stage {
     public static int SuperMine;
     public CreatePopup() {
+
         VBox root = new VBox();
         root.setPadding(new Insets(12));
 
@@ -84,6 +85,9 @@ public class CreatePopup extends Stage {
 
 
             this.close();
+            // Show a success message in a new popup window
+            Alert successAlert = new Alert(Alert.AlertType.INFORMATION, "Description file saved successfully.");
+            successAlert.showAndWait();
         });
 
 

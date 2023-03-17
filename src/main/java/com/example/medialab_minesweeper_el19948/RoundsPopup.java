@@ -20,9 +20,8 @@ public class RoundsPopup extends Stage {
                     new Results(4, GUI.ATTEMPTS[3], GUI.TOTALGAMETIME[3], GUI.WINNER[3]),
                     new Results(5, GUI.ATTEMPTS[4], GUI.TOTALGAMETIME[4], GUI.WINNER[4]));
     public RoundsPopup() {
-        Stage popupWindow = new Stage();
-        popupWindow.initModality(Modality.APPLICATION_MODAL);
-        popupWindow.setTitle("Games Results");
+        this.initModality(Modality.APPLICATION_MODAL);
+        this.setTitle("Games Results");
 
         TableView tableView = new TableView();
 
@@ -46,8 +45,8 @@ public class RoundsPopup extends Stage {
         layout.getChildren().addAll(tableView);
 
         Scene scene = new Scene(layout, 400, 350);
-        popupWindow.setScene(scene);
-        popupWindow.showAndWait();
+        this.setScene(scene);
+        this.show();
     }
     public static class Results {
         private final int firstColumn;

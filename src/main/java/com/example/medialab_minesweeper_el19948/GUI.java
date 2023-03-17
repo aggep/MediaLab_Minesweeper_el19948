@@ -2,12 +2,16 @@ package com.example.medialab_minesweeper_el19948;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -22,10 +26,10 @@ public class GUI extends Application {
     public static int GRIDSIZE = 9;
     public static int MINECOUNT = 10;
     /* for the Rounds functionality */
-    public static String[] WINNER = new String[7];
+    public static String[] WINNER = new String[6];
     public static int GAMES = 0;
-    public static int[] TOTALGAMETIME = new int[7];
-    public static int[] ATTEMPTS = new int[7]; //θεωρώ ότι οι προσπάθειες είναι πόσα "πατήματα" (clicks) κάνει ο χρήστης σε κάθε παιχνίδι
+    public static int[] TOTALGAMETIME = new int[6];
+    public static int[] ATTEMPTS = new int[6]; //θεωρώ ότι οι προσπάθειες είναι πόσα "πατήματα" (clicks) κάνει ο χρήστης σε κάθε παιχνίδι
     static Stage window;
     BorderPane layout;
     static Label infoLabel; //for the display of information s.a. Total Mines, Marked Mines
@@ -71,12 +75,6 @@ public class GUI extends Application {
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
-            if(GAMES < 6)
-                GAMES++;
-            else
-                GAMES = 6;
-            gameCounter(GAMES); //everytime we start a game, we increment the GAMES variable
-            // System.out.println(GAMES); used for debugging
             gameStarted = true;
             startGame();
         });
@@ -101,15 +99,23 @@ public class GUI extends Application {
         MenuItem SOLUTION = new MenuItem("Solution");
         SOLUTION.setOnAction( e->{
             timer.cancel();
+           if(GAMES == 5){
+                gameCounter(GAMES);
+            }
             TOTALGAMETIME[GAMES] = MAX_TIME - remainingTime; //total time = max_time- remaining_time (this is considered an ended game)
             GUI.WINNER[GUI.GAMES] = "computer"; //the game is lost
             for (int x = 0; x < Grid.cellGrid.size(); x++) {
                 if (Grid.cellGrid.get(x).getType() == 1) {
                     Grid.cellGrid.get(x).setDisable(true); //disable the cell
                     Grid.cellGrid.get(x).setText("X"); // where ever there are mines, the symbol "X" will be revealed
+                    Grid.cellGrid.get(x).setBackground(Background.fill(Color.LIGHTCORAL));
+                } else if(Grid.cellGrid.get(x).getType() == 3){
+                    Grid.cellGrid.get(x).setDisable(true); //disable the cell
+                    Grid.cellGrid.get(x).setText("X"); // where ever there are mines, the symbol "X" will be revealed
+                    Grid.cellGrid.get(x).setBackground(Background.fill(Color.GOLD));
                 }else {
                     Grid.cellGrid.get(x).setDisable(true); //disable the cell
-                    Grid.cellGrid.get(x).setText("?"); //if the cell is not a mine, the symbol "?" will appear
+                    Grid.cellGrid.get(x).setText(""); //if the cell is not a mine, the symbol "?" will appear
                 }
             }
             show("You can now see the solution");
@@ -122,8 +128,14 @@ public class GUI extends Application {
 
         /* timer implementation */
         timeLabel = new Label("  Time Remaining: " + remainingTime);
+        timeLabel.setTextFill(Color.LIGHTCORAL);
+
+        timeLabel.setStyle("-fx-background-color: #FFFFCC;");
 
         HBox topBox = new HBox();
+        topBox.setAlignment(Pos.CENTER_LEFT);
+        topBox.setPadding(new Insets(0, 0, 0, 0));
+        topBox.setSpacing(10);
         topBox.getChildren().addAll(menuBar, infoLabel, timeLabel); //add all elements to the top bar
 
         layout = new BorderPane();
@@ -151,6 +163,7 @@ public class GUI extends Application {
     private void createInfoLabel() {
         // initialize the label with default values
         infoLabel = new Label("   Total Mines: " + MINECOUNT + "   Marked Mines: 0");
+        infoLabel.setStyle("-fx-background-color: #FFFFCC;");
     }
     public static void update(int flagged){
         if(infoLabel!=null) {
@@ -160,6 +173,9 @@ public class GUI extends Application {
     public void RanOutofTime(){ //the function is called when the timer runs out before the player finished the game
         timer.cancel();
         timer.purge();
+        if(GUI.GAMES == 5){
+            GUI.gameCounter(GUI.GAMES);
+        }
         TOTALGAMETIME[GAMES] = MAX_TIME;
         WINNER[GAMES] = "computer";
         gameEnded = true;
@@ -167,23 +183,32 @@ public class GUI extends Application {
             if (Grid.cellGrid.get(x).getType() == 1) {
                 Grid.cellGrid.get(x).setDisable(true); //disable the cell
                 Grid.cellGrid.get(x).setText("X"); // where ever there are mines, the symbol "X" will be revealed
+                Grid.cellGrid.get(x).setBackground(Background.fill(Color.LIGHTCORAL));
+            } else if(Grid.cellGrid.get(x).getType() == 3 ){
+                Grid.cellGrid.get(x).setDisable(true); //disable the cell
+                Grid.cellGrid.get(x).setText("X");
+                Grid.cellGrid.get(x).setBackground(Background.fill(Color.GOLD));
             }else {
                 Grid.cellGrid.get(x).setDisable(true); //disable the cell
-                Grid.cellGrid.get(x).setText("?"); //if the cell is not a mine, the symbol "?" will appear
+                Grid.cellGrid.get(x).setText(""); //if the cell is not a mine, the symbol "?" will appear
             }
         }
         show("Ran Out of Time");
     }
-    public static void show(String message) {
+    public static void show(String message) { //function that shows a message when the game has ended
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Game Over");
         alert.setHeaderText(null);
         alert.setContentText(message);
-
         alert.showAndWait();
     }
     private void startGame(){
         // Start the timer
+        if(GAMES < 4 )
+            GAMES++;
+        else
+            GAMES = 5;
+       // System.out.println(GAMES); used for debugging
         gameEnded = false;
         timer.cancel();
         remainingTime = MAX_TIME;
@@ -217,6 +242,9 @@ public class GUI extends Application {
         createInfoLabel();
 
         HBox newBox = new HBox();
+        newBox.setAlignment(Pos.CENTER_LEFT);
+        newBox.setPadding(new Insets(0, 0, 0, 0));
+        newBox.setSpacing(10);
         newBox.getChildren().addAll(menuBar, infoLabel, timeLabel);
 
         BorderPane layout1 = new BorderPane();
@@ -225,7 +253,8 @@ public class GUI extends Application {
         window.setTitle(GUI.title);
 
         Grid.cellGrid.clear();
-        Grid.mines.clear();
+        Grid.mines.clear(); //we clear these arrayLists because they are static, which means that everytime we reset the game, if we do not clear them, they do not reset but keep their previous values
+        Grid.SuperMine.clear();
 
         Handler handler = new Handler();
         gridPane = new Grid(handler);
@@ -242,6 +271,11 @@ public class GUI extends Application {
         window.show();
     }
 
+    /**
+     * Updates the new values for the game from the loaded file
+     *
+     * @param  time: the time of the game, gridSize: the size of the grid, mineCount: the number of mines
+     */
     public static void updateValues(int time, int gridSize, int mineCount) {
         TIME = time;
         GRIDSIZE = gridSize;
@@ -249,25 +283,23 @@ public class GUI extends Application {
         Grid.bound = GRIDSIZE *  GRIDSIZE;
         MAX_TIME = remainingTime = TIME;
     }
-
-    public static void gameCounter(int games){ //this function removes the first element of the array and shifts the rest elements one position to the left
-        if(games >= 6){
-            //shift elements one position to the left
+    /**
+     * When there have been more than 5 games in one session, the arrays that contain the games' information should be shifted in order to display the 5 most recent games
+     *
+     * @param  games: the number of games the player has played in one session
+     */
+    public static void gameCounter(int games) { //this function removes the first element of the array and shifts the rest elements one position to the left
+        //shift elements one position to the left
+        if (games == 5) {
             for (int i = 0; i < TOTALGAMETIME.length - 1; i++) {
-                TOTALGAMETIME[i] = TOTALGAMETIME[i+1];
+                TOTALGAMETIME[i] = TOTALGAMETIME[i + 1];
             }
             for (int i = 0; i < WINNER.length - 1; i++) {
-                WINNER[i] = WINNER[i+1];
+                WINNER[i] = WINNER[i + 1];
             }
             for (int i = 0; i < ATTEMPTS.length - 1; i++) {
-                    ATTEMPTS[i] = ATTEMPTS[i+1];
+                ATTEMPTS[i] = ATTEMPTS[i + 1];
             }
-           /*
-            System.arraycopy(TOTALGAMETIME, 1, TOTALGAMETIME, 0, TOTALGAMETIME.length-1);
-            System.arraycopy(WINNER, 1, WINNER, 0, WINNER.length-1);
-            System.arraycopy(ATTEMPTS, 1, ATTEMPTS, 0, ATTEMPTS.length-1); */
         }
     }
-
-
 }

@@ -1,5 +1,8 @@
 package com.example.medialab_minesweeper_el19948;
 
+import javafx.scene.layout.Background;
+import javafx.scene.paint.Color;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -7,8 +10,15 @@ public class Handler {
     private static ArrayList<Cell> current = new ArrayList<>(); //create two arrays that will handle the cells differently, depending on their "states"
     private static ArrayList<Cell> queue = new ArrayList<>();
     private static int flaggedCells = 0; //keeps track of the flagged cells
-    public Handler() throws IOException {}
 
+    public Handler() throws IOException {
+    }
+
+    /**
+     * Implements the click function
+     *
+     * @param cell
+     */
     public static void click(Cell cell) {
         GUI.ATTEMPTS[GUI.GAMES]++; //everytime we click, the attempts of a game are being incremented by one
         int discoveredCells = 0; //how many cells are discovered during the game
@@ -82,13 +92,21 @@ public class Handler {
                     Grid.cellGrid.get(j).setText(""); //no text inside any of the cells that are not mines
                     if (Grid.cellGrid.get(j).getType() == 1) { //if cell is a mine cell
                         Grid.cellGrid.get(j).setText("X"); // the cells that have mines hidden underneath them are revealed with an "X"
+                        Grid.cellGrid.get(j).setBackground(Background.fill(Color.LIGHTCORAL));
+                    }
+                    else if (Grid.cellGrid.get(j).getType() == 3) { //if cell is a mine cell
+                        Grid.cellGrid.get(j).setText("X"); // the cells that have mines hidden underneath them are revealed with an "X"
+                        Grid.cellGrid.get(j).setBackground(Background.fill(Color.LIGHTGOLDENRODYELLOW));
                     }
                 }
-                cell.setText("*"); //the cell we have clicked on that made us lose the game is distinguished by an "*"
+                cell.setTextFill(Color.RED); //the cell we have clicked on that made us lose the game is distinguished by an "*"
                 GUI.timer.cancel();
+                GUI.gameEnded = true;
+                if (GUI.GAMES == 5) {
+                    GUI.gameCounter(GUI.GAMES);
+                }
                 GUI.TOTALGAMETIME[GUI.GAMES] = (GUI.MAX_TIME - GUI.remainingTime);
                 GUI.WINNER[GUI.GAMES] = "computer";
-                GUI.gameEnded = true;
                 //System.out.println(GUI.TOTALGAMETIME[GUI.GAMES]); used for debugging
                 GUI.show("Oops! You clicked on a mine!");
             } else if (cell.getType() == 2) {
@@ -99,7 +117,7 @@ public class Handler {
                         if (Grid.cellGrid.get((position + GUI.GRIDSIZE)).getType() == 1) mineCount++;
                         if (Grid.cellGrid.get((position + GUI.GRIDSIZE + 1)).getType() == 1) mineCount++;
                         if (Grid.cellGrid.get((position + 1)).getType() == 1) mineCount++;
-                    } else if (position % GUI.GRIDSIZE == GUI.GRIDSIZE - 1) {     //check for top right corne
+                    } else if (position % GUI.GRIDSIZE == GUI.GRIDSIZE - 1) {     //check for top right corner
                         if (Grid.cellGrid.get((position + GUI.GRIDSIZE)).getType() == 1) mineCount++;
                         if (Grid.cellGrid.get((position + GUI.GRIDSIZE - 1)).getType() == 1) mineCount++;
                         if (Grid.cellGrid.get((position - 1)).getType() == 1) mineCount++;
@@ -149,10 +167,63 @@ public class Handler {
                     if (Grid.cellGrid.get((position + 1)).getType() == 1) mineCount++;
                 }
                 cell.setText(String.valueOf(mineCount)); //assign the value of the chosen cell to the mineCount
-            } else if(cell.getType() == 3 && GUI.ATTEMPTS[GUI.GAMES] <= 4) { //if the cell is type 3 and the number of attempts is less than or equal to 4, then
+            } else if (cell.getType() == 3 && GUI.ATTEMPTS[GUI.GAMES] <= 4) { //if it is a supermine and the number of attempts is less than or equal to 4
+                // reveal all cells in the same row and column as this cell
+               // System.out.println(position); used for debugging
+                int row = position/ GUI.GRIDSIZE;
+                for (int i = 0; i < GUI.GRIDSIZE; i++) {
+                    //reveal the cells in the same column
+                    Cell rowCell = Grid.cellGrid.get(row * GUI.GRIDSIZE + i );
+                    if (!rowCell.isDiscovered()) {
+                        rowCell.setDiscovered();
+                        rowCell.setDisable(true);
+                        if (rowCell.getType() == 1) { //if it's a mine
+                            rowCell.setStyle("-fx-background-color: #FF0000;"); // set the mine cell's background color to red
+                        } else if (rowCell.getType() == 2) {
+                            rowCell.setText("");
+                        }
+                    }
+                    //reveal the cells in the same column
+                   Cell colCell = Grid.cellGrid.get( position % GUI.GRIDSIZE + i * GUI.GRIDSIZE  );
+                    if (!colCell.isDiscovered()) {
+                        colCell.setDiscovered();
+                        colCell.setDisable(true);
+                        if (colCell.getType() == 1) {
+                            colCell.setStyle("-fx-background-color: #FF0000;");
+                        } else if (colCell.getType() == 2) {
+                            colCell.setText("");
+                        }
+                    }
+                }
+                cell.setBackground(Background.fill(Color.GOLD)); //when you have marked a supermine, the cell turns golden
+            } else if (cell.getType() == 3 && GUI.ATTEMPTS[GUI.GAMES] > 4){
+                for (int j = 0; j < Grid.cellGrid.size(); j++) { //disable all of our cells
+                    Grid.cellGrid.get(j).setDisable(true);
+                    Grid.cellGrid.get(j).setText(""); //no text inside any of the cells that are not mines
+                    if (Grid.cellGrid.get(j).getType() == 1) { //if cell is a mine cell
+                        Grid.cellGrid.get(j).setText("X"); // the cells that have mines hidden underneath them are revealed with an "X"
+                        Grid.cellGrid.get(j).setBackground(Background.fill(Color.LIGHTCORAL));
+                    }
+                    else if (Grid.cellGrid.get(j).getType() == 3) { //if cell is a mine cell
+                        Grid.cellGrid.get(j).setText("X"); // the cells that have mines hidden underneath them are revealed with an "X"
+                        Grid.cellGrid.get(j).setBackground(Background.fill(Color.LIGHTGOLDENRODYELLOW));
+                    }
 
+                }
+                cell.setText("X"); //the cell we have clicked on that made us lose the game is distinguished by an "X"
+                cell.setBackground(Background.fill(Color.RED));
+                GUI.timer.cancel();
+                GUI.gameEnded = true;
+                if (GUI.GAMES == 5) {
+                    GUI.gameCounter(GUI.GAMES);
+                }
+                GUI.TOTALGAMETIME[GUI.GAMES] = (GUI.MAX_TIME - GUI.remainingTime);
+                GUI.WINNER[GUI.GAMES] = "computer";
+
+                //System.out.println(GUI.TOTALGAMETIME[GUI.GAMES]); used for debugging
+                GUI.show("Oops! You clicked on a mine!");
             }
-            for(int x = 0; x < queue.size(); x++) {
+            for (int x = 0; x < queue.size(); x++) {
                 if (!queue.get(x).isDiscovered()) {
                     current.add(queue.get(x));
                     queue.get(x).discovered = true; //avoid duplication
@@ -164,31 +235,46 @@ public class Handler {
                 current.remove(0);
                 temp.clickButton();
             }
-            for(int i = 0; i < Grid.cellGrid.size(); i++){
-                if(Grid.cellGrid.get(i).isDiscovered()) discoveredCells++; //keeping track of the cells that have been discovered
+            for (int i = 0; i < Grid.cellGrid.size(); i++) {
+                if (Grid.cellGrid.get(i).isDiscovered())
+                    discoveredCells++; //keeping track of the cells that have been discovered
             }
             if (discoveredCells == Grid.cellGrid.size() - GUI.MINECOUNT) {
                 for (int x = 0; x < Grid.cellGrid.size(); x++) {
                     if (Grid.cellGrid.get(x).getType() == 1) {
                         Grid.cellGrid.get(x).setDisable(true); //disable the cell
-                        Grid.cellGrid.get(x).setText("X"); //check this after reading the instructions
+                        Grid.cellGrid.get(x).setText("X");
+                        Grid.cellGrid.get(x).setBackground(Background.fill(Color.LIME));
+                    }else if (Grid.cellGrid.get(x).getType() == 3) {
+                        Grid.cellGrid.get(x).setDisable(true); //disable the cell
+                        Grid.cellGrid.get(x).setText("X");
+                        Grid.cellGrid.get(x).setBackground(Background.fill(Color.GOLD));
                     } else {
                         Grid.cellGrid.get(x).setDisable(true); //disable the cell
-                        Grid.cellGrid.get(x).setText("!");
+                        Grid.cellGrid.get(x).setText(" ");
                     }
                 }
                 GUI.timer.cancel();
+                GUI.gameEnded = true;
+                if (GUI.GAMES == 5) {
+                    GUI.gameCounter(GUI.GAMES);
+                }
                 GUI.TOTALGAMETIME[GUI.GAMES] = (GUI.MAX_TIME - GUI.remainingTime);
                 GUI.WINNER[GUI.GAMES] = "player";
-                GUI.gameEnded = true;
                 GUI.show("You won!");
             }
         }
     }
+
     /* functionality for the right click */
-    public void rightClick(Cell cell){
-        if(!cell.isDiscovered()){
-            if(!cell.isFlagged()){
+
+    /**
+     * Implements the functionality of being able to flag a cell
+     * @param cell
+     */
+    public void rightClick(Cell cell) {
+        if (!cell.isDiscovered()) {
+            if (!cell.isFlagged()) {
                 cell.setFlagged(true);
                 cell.setText("F"); //indication that the cell is flagged
                 flaggedCells++; //increment the number of cells that are flagged

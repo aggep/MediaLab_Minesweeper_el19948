@@ -1,25 +1,32 @@
 package com.example.medialab_minesweeper_el19948;
 
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Optional;
 import java.util.Scanner;
+
 
 public class LoadPopup extends Stage {
 
     public int Diff;
     public int NumberOfMines;
     public int Time;
-    public int SuperMine;
+    public static int SuperMine;
     public int[] array;
 
-    public LoadPopup() {
+    public LoadPopup(){
+
+        this.initModality(Modality.APPLICATION_MODAL);
+       // this.initStyle(StageStyle.UTILITY);
+        setResizable(false);
+
         VBox root = new VBox();
         root.setPadding(new Insets(12));
 
@@ -31,8 +38,8 @@ public class LoadPopup extends Stage {
         dialog.setTitle("Load Scenario");
         dialog.setHeaderText(null);
         dialog.setContentText("Please enter scenario ID:");
-        Optional<String> result = dialog.showAndWait();
 
+        Optional<String> result = dialog.showAndWait();
 
         result.ifPresent(scenarioId -> {
             String filePath = System.getProperty("user.home") + "/medialab/" + scenarioId + ".txt";
@@ -73,9 +80,9 @@ public class LoadPopup extends Stage {
                                     throw new InvalidValueException("wrong description!");
                                 else{
                                     GUI.updateValues(Time,9, NumberOfMines);
-                                   /* GUI.GRIDSIZE = 9;
-                                    GUI.MINECOUNT = NumberOfMines;
-                                    GUI.TIME = Time; */
+                                    // Show a success message in a new popup window
+                                    Alert successAlert = new Alert(Alert.AlertType.INFORMATION, "Description file loaded successfully.");
+                                    successAlert.show();
                                 }
 
 
@@ -85,10 +92,10 @@ public class LoadPopup extends Stage {
                                     throw new InvalidValueException("wrong description!");
                                else {
                                     GUI.updateValues(Time,16, NumberOfMines);
-                                   /* GUI.GRIDSIZE = 16;
-                                    GUI.MINECOUNT = NumberOfMines;
-                                    GUI.TIME = Time; */
                                 }
+                                // Show a success message in a new popup window
+                                Alert successAlert = new Alert(Alert.AlertType.INFORMATION, "Description file loaded successfully.");
+                                successAlert.show();
                             }
                         }
 
@@ -96,7 +103,6 @@ public class LoadPopup extends Stage {
                 } catch (InvalidDescriptionException e) {
                     throw new InvalidDescriptionException("incorrect number of lines: ");
                 }
-
         });
     }
 }

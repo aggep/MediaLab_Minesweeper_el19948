@@ -46,12 +46,12 @@ public class Grid extends GridPane {
         }
 
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text files", "*.txt"));
-
+       // System.out.println(LoadPopup.SuperMine); used for debugging
         File file = new File(folder, "mines.txt");
         //the first cells we will create are the mines
         BufferedWriter writer = new BufferedWriter(new FileWriter(file)); //we will need a buffer to write the text that has the positions of the mines
         try {
-            if(CreatePopup.SuperMine == 1) {
+            if(LoadPopup.SuperMine == 1) { //if there is a supermine
                 for (int i = 1; i <= GUI.MINECOUNT-1; i++) { //out of the MINECOUNT one of the mines is going to be a supermine
                     //keep creating random numbers until all numbers are unique
                     while (!picked) {
@@ -83,6 +83,7 @@ public class Grid extends GridPane {
                         //write mine position to file
                         int row = i / GUI.GRIDSIZE;
                         int col = i % GUI.GRIDSIZE;
+                        System.out.println(row+" "+ col); //used for debugging - to find the supermine more easily
                         int notSuperMine = 0;
                         writer.write(row + "," + col + "," + notSuperMine + "\n"); //in the txt file the number 0 indicates that there is a mine
                     } else if (i % GUI.GRIDSIZE == 0) { //for the left side

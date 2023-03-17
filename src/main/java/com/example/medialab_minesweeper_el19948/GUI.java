@@ -113,7 +113,7 @@ public class GUI extends Application {
                     Grid.cellGrid.get(x).setBackground(Background.fill(Color.LIGHTCORAL));
                 } else if(Grid.cellGrid.get(x).getType() == 3){
                     Grid.cellGrid.get(x).setDisable(true); //disable the cell
-                    Grid.cellGrid.get(x).setText("X"); // where ever there are mines, the symbol "X" will be revealed
+                    Grid.cellGrid.get(x).setText("X!"); // where ever there are mines, the symbol "X" will be revealed
                     Grid.cellGrid.get(x).setBackground(Background.fill(Color.GOLD));
                 }else {
                     Grid.cellGrid.get(x).setDisable(true); //disable the cell
@@ -188,7 +188,7 @@ public class GUI extends Application {
                 Grid.cellGrid.get(x).setBackground(Background.fill(Color.LIGHTCORAL));
             } else if(Grid.cellGrid.get(x).getType() == 3 ){
                 Grid.cellGrid.get(x).setDisable(true); //disable the cell
-                Grid.cellGrid.get(x).setText("X");
+                Grid.cellGrid.get(x).setText("X!");
                 Grid.cellGrid.get(x).setBackground(Background.fill(Color.GOLD));
             }else {
                 Grid.cellGrid.get(x).setDisable(true); //disable the cell

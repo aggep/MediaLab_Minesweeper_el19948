@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30254ff7-e7bd-4f11-ba98-0c0a7d40ef9e" name="Changes" comment="fixed bugs concerning the gameCounter function and  the Load Popup">
+    <list default="true" id="30254ff7-e7bd-4f11-ba98-0c0a7d40ef9e" name="Changes" comment="added alerts for exceptions">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/InvalidDescriptionException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/InvalidDescriptionException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/InvalidValueException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/InvalidValueException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/Handler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/medialab_minesweeper_el19948/Handler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/medialab_minesweeper_el19948/hello-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/medialab_minesweeper_el19948/hello-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -97,7 +97,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679078357141</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="added alerts for exceptions">
+      <created>1679079386520</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1679079386520</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -116,7 +123,8 @@
     <MESSAGE value="Improved the Start and Load buttons' functionalities" />
     <MESSAGE value="Added more color, fixed bugs and implemented the super-mine" />
     <MESSAGE value="fixed bugs concerning the gameCounter function and  the Load Popup" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed bugs concerning the gameCounter function and  the Load Popup" />
+    <MESSAGE value="added alerts for exceptions" />
+    <option name="LAST_COMMIT_MESSAGE" value="added alerts for exceptions" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

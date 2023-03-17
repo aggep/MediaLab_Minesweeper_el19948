@@ -95,8 +95,8 @@ public class Handler {
                         Grid.cellGrid.get(j).setBackground(Background.fill(Color.LIGHTCORAL));
                     }
                     else if (Grid.cellGrid.get(j).getType() == 3) { //if cell is a mine cell
-                        Grid.cellGrid.get(j).setText("X"); // the cells that have mines hidden underneath them are revealed with an "X"
-                        Grid.cellGrid.get(j).setBackground(Background.fill(Color.LIGHTGOLDENRODYELLOW));
+                        Grid.cellGrid.get(j).setText("X!"); // the cells that have mines hidden underneath them are revealed with an "X"
+                        Grid.cellGrid.get(j).setBackground(Background.fill(Color.GOLD));
                     }
                 }
                 cell.setTextFill(Color.RED); //the cell we have clicked on that made us lose the game is distinguished by an "*"
@@ -209,8 +209,8 @@ public class Handler {
                         Grid.cellGrid.get(j).setBackground(Background.fill(Color.LIGHTCORAL));
                     }
                     else if (Grid.cellGrid.get(j).getType() == 3) { //if cell is a mine cell
-                        Grid.cellGrid.get(j).setText("X"); // the cells that have mines hidden underneath them are revealed with an "X"
-                        Grid.cellGrid.get(j).setBackground(Background.fill(Color.LIGHTGOLDENRODYELLOW));
+                        Grid.cellGrid.get(j).setText("X!"); // the cells that have mines hidden underneath them are revealed with an "X"
+                        Grid.cellGrid.get(j).setBackground(Background.fill(Color.GOLD));
                     }
 
                 }
@@ -250,7 +250,7 @@ public class Handler {
                         Grid.cellGrid.get(x).setBackground(Background.fill(Color.LIME));
                     }else if (Grid.cellGrid.get(x).getType() == 3) {
                         Grid.cellGrid.get(x).setDisable(true); //disable the cell
-                        Grid.cellGrid.get(x).setText("X");
+                        Grid.cellGrid.get(x).setText("X!");
                         Grid.cellGrid.get(x).setBackground(Background.fill(Color.GOLD));
                     } else {
                         Grid.cellGrid.get(x).setDisable(true); //disable the cell
